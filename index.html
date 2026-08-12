@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BoxHead — 3,333 heads that have seen enough</title>
+<meta name="description" content="3,333 BoxHeads on Robinhood Chain. Hand-drawn, built in the open.">
+<meta property="og:title" content="BoxHead">
+<meta property="og:description" content="3,333 heads that have seen enough. Robinhood Chain.">
+<meta property="og:image" content="https://theboxhead.fun/img/boxhead-01.png">
+<meta property="og:url" content="https://theboxhead.fun/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/boxhead-01.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+:root{--yellow:#FFC800;--ink:#0A0A0A;--paper:#FFF4D1;--line:4px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+/* ---- custom ink-drop cursor ---- */
+body{
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='34' viewBox='0 0 28 34'%3E%3Cpath d='M14 2C14 2 4 15 4 21a10 10 0 0 0 20 0C24 15 14 2 14 2z' fill='%230A0A0A'/%3E%3Cpath d='M14 2C14 2 4 15 4 21a10 10 0 0 0 20 0C24 15 14 2 14 2z' fill='none' stroke='%23FFC800' stroke-width='2'/%3E%3C/svg%3E") 6 2, auto;
+}
+a,button,.tile,.tick{
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='38' viewBox='0 0 30 38'%3E%3Cpath d='M15 1C15 1 4 16 4 23a11 11 0 0 0 22 0C26 16 15 1 15 1z' fill='%23FFC800'/%3E%3Cpath d='M15 1C15 1 4 16 4 23a11 11 0 0 0 22 0C26 16 15 1 15 1z' fill='none' stroke='%230A0A0A' stroke-width='3'/%3E%3C/svg%3E") 7 2, pointer;
+}
+
+body{background:var(--yellow);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+h1,h2,h3,.mark{font-family:'Archivo Black',system-ui,sans-serif;font-weight:400;line-height:0.92;letter-spacing:-0.02em;text-transform:uppercase}
+
+nav{border-bottom:var(--line) solid var(--ink);position:sticky;top:0;z-index:50;background:var(--yellow)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+.mark{font-size:20px;letter-spacing:-0.03em}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid transparent}
+.nav-links a:hover{border-bottom-color:var(--ink)}
+
+.hero{padding:72px 0 84px;display:grid;grid-template-columns:1.15fr 0.85fr;gap:52px;align-items:center}
+.eyebrow{display:inline-block;font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;border:3px solid var(--ink);padding:5px 12px;margin-bottom:22px}
+h1{font-size:clamp(48px,8vw,96px)}
+.lede{font-size:20px;max-width:44ch;margin-top:22px}
+.hero-art{border:var(--line) solid var(--ink);box-shadow:12px 12px 0 var(--ink);line-height:0;overflow:hidden}
+.hero-art img{width:100%;display:block}
+
+.facts{display:flex;flex-wrap:wrap;margin-top:32px;border:var(--line) solid var(--ink);box-shadow:8px 8px 0 var(--ink);background:var(--paper)}
+.fact{flex:1 1 0;min-width:104px;padding:15px 17px;border-right:3px solid var(--ink)}
+.fact:last-child{border-right:0}
+.fact dt{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;opacity:0.65}
+.fact dd{font-family:'Archivo Black';font-size:21px;letter-spacing:-0.02em;margin-top:3px}
+
+.btn-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:32px}
+.btn{font-family:'Archivo Black';font-size:14px;letter-spacing:0.04em;text-transform:uppercase;padding:15px 26px;border:var(--line) solid var(--ink);background:var(--ink);color:var(--yellow);text-decoration:none;display:inline-block;box-shadow:6px 6px 0 rgba(10,10,10,0.25);transition:transform .08s ease, box-shadow .08s ease}
+.btn:hover{transform:translate(3px,3px);box-shadow:3px 3px 0 rgba(10,10,10,0.25)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:6px 6px 0 var(--ink)}
+.btn.ghost:hover{box-shadow:3px 3px 0 var(--ink)}
+.btn.locked{background:transparent;color:var(--ink);opacity:0.42;box-shadow:none;cursor:not-allowed;border-style:dashed}
+
+/* ---- ink drip section divider ---- */
+section{position:relative;border-top:var(--line) solid var(--ink);padding:72px 0}
+.drip{
+  position:absolute;top:calc(var(--line) * -1);left:0;width:100%;height:44px;
+  display:block;pointer-events:none;color:var(--ink);
+}
+.drip svg{width:100%;height:100%;display:block}
+
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:36px}
+.sec-head h2{font-size:clamp(30px,4.6vw,48px)}
+.sec-note{font-size:13px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;opacity:0.6}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:22px}
+.tile{border:var(--line) solid var(--ink);background:var(--paper);aspect-ratio:1;overflow:hidden;position:relative;line-height:0;transition:transform .1s ease}
+.tile:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--ink)}
+.tile img{width:100%;height:100%;object-fit:cover;display:block}
+.tile .tag{position:absolute;left:0;bottom:0;background:var(--ink);color:var(--yellow);font-size:11px;font-weight:600;letter-spacing:0.1em;padding:5px 10px;line-height:1.4}
+.tile.empty{display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.35;line-height:1.6;text-align:center;padding:10px}
+
+.prose{max-width:60ch;font-size:18px}
+.prose p+p{margin-top:18px}
+
+.raffle{display:grid;grid-template-columns:1.1fr 0.9fr;gap:34px;align-items:start}
+.panel{border:var(--line) solid var(--ink);background:var(--paper);box-shadow:10px 10px 0 var(--ink);padding:30px}
+.panel h3{font-size:21px;margin-bottom:14px}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;padding:14px 0 14px 46px;position:relative;border-bottom:2px solid rgba(10,10,10,0.18);font-size:16px}
+.steps li:last-child{border-bottom:0;padding-bottom:0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:12px;width:30px;height:30px;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:'Archivo Black';font-size:13px}
+.entry-box{text-align:center;padding:34px 26px}
+.entry-num{font-family:'Archivo Black';font-size:70px;line-height:0.85;letter-spacing:-0.04em;opacity:0.35}
+.entry-lbl{font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-top:10px;opacity:0.65}
+.safe{font-size:13px;margin-top:18px;padding-top:16px;border-top:2px solid rgba(10,10,10,0.2);opacity:0.75;line-height:1.55}
+
+.nots{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:32px}
+.not{font-family:'Archivo Black';font-size:15px;text-transform:uppercase;letter-spacing:0.02em;padding:12px 20px;border:var(--line) solid var(--ink);background:var(--ink);color:var(--yellow)}
+.not span{text-decoration:line-through;text-decoration-thickness:3px}
+
+footer{position:relative;border-top:var(--line) solid var(--ink);padding:52px 0 64px;background:var(--ink);color:var(--yellow)}
+footer .mark{font-size:42px;letter-spacing:-0.04em}
+.foot-row{display:flex;justify-content:space-between;align-items:flex-end;gap:26px;flex-wrap:wrap}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap}
+.foot-links a{color:var(--yellow);font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;text-decoration:none;border-bottom:2px solid var(--yellow)}
+.foot-links a:hover{opacity:0.7}
+.fine{font-size:12px;opacity:0.55;margin-top:24px;max-width:58ch;line-height:1.6}
+
+@media (max-width:840px){
+  .hero{grid-template-columns:1fr;gap:36px;padding:48px 0 58px}
+  .hero-art{order:-1}
+  .raffle{grid-template-columns:1fr}
+  .nav-links a:not(.nav-cta){display:none}
+  section{padding:56px 0}
+  .drip{height:30px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+a:focus-visible,button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
+footer a:focus-visible{outline-color:var(--yellow)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <div class="mark">BoxHead</div>
+    <div class="nav-links">
+      <a href="#gallery">Gallery</a>
+      <a href="#about">About</a>
+      <a href="#raffle">Raffle</a>
+      <a class="nav-cta" href="https://x.com/boxheadfun" target="_blank" rel="noopener">X</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <span class="eyebrow">Robinhood Chain</span>
+      <h1>3,333 heads<br>that have<br>seen enough</h1>
+      <p class="lede">Half-closed eyes, ink running down the face, and no opinion about your roadmap. Drawn by hand, minting on OpenSea, built in the open.</p>
+
+      <dl class="facts">
+        <div class="fact"><dt>Supply</dt><dd>3,333</dd></div>
+        <div class="fact"><dt>Chain</dt><dd>RH</dd></div>
+        <div class="fact"><dt>Mint</dt><dd>TBA</dd></div>
+        <div class="fact"><dt>Date</dt><dd>TBA</dd></div>
+      </dl>
+
+      <div class="btn-row">
+        <a class="btn locked" aria-disabled="true">Mint — not live</a>
+        <a class="btn ghost" href="https://x.com/boxheadfun" target="_blank" rel="noopener">Follow the build</a>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <img src="img/boxhead-01.png" alt="A BoxHead character: a yellow cardboard box head with heavy-lidded eyes and black ink dripping down the face.">
+    </div>
+  </header>
+</div>
+
+<section id="gallery">
+  <span class="drip" aria-hidden="true">
+    <svg viewBox="0 0 1200 44" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="currentColor" d="M0 0h1200v5H0z"/>
+      <path fill="currentColor" d="M92 4c4 0 6 3 6 8s2 9 2 14-3 8-7 8-7-3-7-8 2-9 2-14 0-8 4-8z"/>
+      <path fill="currentColor" d="M268 4c5 0 7 4 7 10s3 13 3 19-4 10-8 10-8-4-8-10 3-13 3-19 -2-10 3-10z"/>
+      <path fill="currentColor" d="M436 4c4 0 5 3 5 7s2 7 2 11-3 6-6 6-6-2-6-6 2-7 2-11 -1-7 3-7z"/>
+      <path fill="currentColor" d="M640 4c5 0 7 4 7 11s3 16 3 22-4 7-8 7-8-1-8-7 3-15 3-22 -2-11 3-11z"/>
+      <path fill="currentColor" d="M812 4c4 0 6 3 6 8s2 10 2 15-3 7-7 7-7-2-7-7 2-10 2-15 0-8 4-8z"/>
+      <path fill="currentColor" d="M1024 4c4 0 5 3 5 7s2 9 2 13-3 7-6 7-6-3-6-7 2-9 2-13 -1-7 3-7z"/>
+      <circle fill="currentColor" cx="182" cy="26" r="4"/>
+      <circle fill="currentColor" cx="530" cy="32" r="5"/>
+      <circle fill="currentColor" cx="736" cy="24" r="3"/>
+      <circle fill="currentColor" cx="920" cy="30" r="4"/>
+      <circle fill="currentColor" cx="1128" cy="22" r="3"/>
+    </svg>
+  </span>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>The heads</h2>
+      <span class="sec-note">More added as they're drawn</span>
+    </div>
+    <div class="grid">
+      <div class="tile"><img src="img/boxhead-01.png" alt="BoxHead 001"><span class="tag">001</span></div>
+      <div class="tile empty">img/<br>boxhead-02.png</div>
+      <div class="tile empty">img/<br>boxhead-03.png</div>
+      <div class="tile empty">img/<br>boxhead-04.png</div>
+      <div class="tile empty">img/<br>boxhead-05.png</div>
+      <div class="tile empty">img/<br>boxhead-06.png</div>
+      <div class="tile empty">img/<br>boxhead-07.png</div>
+      <div class="tile empty">img/<br>boxhead-08.png</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <span class="drip" aria-hidden="true">
+    <svg viewBox="0 0 1200 44" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="currentColor" d="M0 0h1200v5H0z"/>
+      <path fill="currentColor" d="M148 4c5 0 7 4 7 10s3 14 3 20-4 9-8 9-8-3-8-9 3-14 3-20 -2-10 3-10z"/>
+      <path fill="currentColor" d="M352 4c4 0 5 3 5 7s2 8 2 12-3 7-6 7-6-3-6-7 2-8 2-12 -1-7 3-7z"/>
+      <path fill="currentColor" d="M568 4c4 0 6 3 6 9s2 11 2 16-3 7-7 7-7-2-7-7 2-10 2-16 0-9 4-9z"/>
+      <path fill="currentColor" d="M760 4c5 0 7 4 7 11s3 15 3 21-4 8-8 8-8-2-8-8 3-14 3-21 -2-11 3-11z"/>
+      <path fill="currentColor" d="M968 4c4 0 5 3 5 8s2 9 2 14-3 7-6 7-6-2-6-7 2-9 2-14 -1-8 3-8z"/>
+      <path fill="currentColor" d="M1136 4c4 0 6 3 6 7s2 8 2 12-3 6-6 6-6-2-6-6 2-8 2-12 -2-7 2-7z"/>
+      <circle fill="currentColor" cx="252" cy="30" r="4"/>
+      <circle fill="currentColor" cx="466" cy="24" r="3"/>
+      <circle fill="currentColor" cx="672" cy="34" r="5"/>
+      <circle fill="currentColor" cx="872" cy="26" r="4"/>
+      <circle fill="currentColor" cx="1056" cy="28" r="3"/>
+    </svg>
+  </span>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What this is</h2>
+      <span class="sec-note">The whole pitch</span>
+    </div>
+    <div class="prose">
+      <p>Every profile picture on your timeline is doing work for someone. An ape, a punk, a cat — it says something before a word gets typed. BoxHead is what's left when you stop trying so hard.</p>
+      <p>A cardboard box, eyes half shut, ink running where a face should be. It isn't hyped about the chain, the cycle, or itself. That's the character, and that's the whole personality of the collection.</p>
+      <p>3,333 of them on Robinhood Chain. Small supply on purpose — I'd rather sell fewer and not have to convince anyone.</p>
+      <p>Holders get full commercial rights to their own head. Use it, print it, put it on something. It's yours.</p>
+    </div>
+  </div>
+</section>
+
+<section id="raffle">
+  <span class="drip" aria-hidden="true">
+    <svg viewBox="0 0 1200 44" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="currentColor" d="M0 0h1200v5H0z"/>
+      <path fill="currentColor" d="M76 4c4 0 6 3 6 8s2 10 2 15-3 7-7 7-7-2-7-7 2-10 2-15 0-8 4-8z"/>
+      <path fill="currentColor" d="M300 4c5 0 7 4 7 11s3 16 3 22-4 8-8 8-8-2-8-8 3-15 3-22 -2-11 3-11z"/>
+      <path fill="currentColor" d="M508 4c4 0 5 3 5 7s2 8 2 12-3 6-6 6-6-2-6-6 2-8 2-12 -1-7 3-7z"/>
+      <path fill="currentColor" d="M712 4c4 0 6 3 6 9s2 12 2 17-3 7-7 7-7-2-7-7 2-11 2-17 0-9 4-9z"/>
+      <path fill="currentColor" d="M900 4c5 0 6 4 6 9s3 12 3 17-4 8-7 8-7-3-7-8 2-12 2-17 -2-9 3-9z"/>
+      <path fill="currentColor" d="M1088 4c4 0 6 3 6 8s2 11 2 16-3 7-7 7-7-2-7-7 2-11 2-16 0-8 4-8z"/>
+      <circle fill="currentColor" cx="200" cy="28" r="4"/>
+      <circle fill="currentColor" cx="416" cy="32" r="5"/>
+      <circle fill="currentColor" cx="620" cy="22" r="3"/>
+      <circle fill="currentColor" cx="820" cy="30" r="4"/>
+      <circle fill="currentColor" cx="1008" cy="26" r="3"/>
+    </svg>
+  </span>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Holder raffle</h2>
+      <span class="sec-note">Free to enter — always</span>
+    </div>
+
+    <div class="raffle">
+      <div class="panel">
+        <h3>How it works</h3>
+        <ol class="steps">
+          <li>Hold a BoxHead. That's the entry. Nothing is sent, burned, locked, or staked.</li>
+          <li>A snapshot is taken on the date posted on X. One head held equals one entry.</li>
+          <li>Two winners are drawn. The draw and the transaction hashes get posted publicly, every round.</li>
+          <li>The prize pool comes out of my pocket, not from entry fees. There are no entry fees, ever.</li>
+        </ol>
+      </div>
+
+      <div class="panel entry-box">
+        <div class="entry-num">—</div>
+        <div class="entry-lbl">Opens after mint</div>
+        <div class="btn-row" style="justify-content:center">
+          <a class="btn locked" aria-disabled="true">Entry — not open</a>
+        </div>
+        <p class="safe">Read-only when it opens. This site never requests a transaction, a signature, or a seed phrase. If any page claiming to be BoxHead asks for one, it isn't this one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="not">
+  <span class="drip" aria-hidden="true">
+    <svg viewBox="0 0 1200 44" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="currentColor" d="M0 0h1200v5H0z"/>
+      <path fill="currentColor" d="M124 4c4 0 6 3 6 9s2 12 2 17-3 7-7 7-7-2-7-7 2-11 2-17 0-9 4-9z"/>
+      <path fill="currentColor" d="M336 4c5 0 7 4 7 10s3 14 3 20-4 9-8 9-8-3-8-9 3-14 3-20 -2-10 3-10z"/>
+      <path fill="currentColor" d="M552 4c4 0 5 3 5 7s2 9 2 13-3 7-6 7-6-3-6-7 2-9 2-13 -1-7 3-7z"/>
+      <path fill="currentColor" d="M784 4c4 0 6 3 6 8s2 11 2 16-3 8-7 8-7-3-7-8 2-11 2-16 0-8 4-8z"/>
+      <path fill="currentColor" d="M992 4c5 0 7 4 7 11s3 15 3 21-4 8-8 8-8-2-8-8 3-14 3-21 -2-11 3-11z"/>
+      <circle fill="currentColor" cx="232" cy="26" r="4"/>
+      <circle fill="currentColor" cx="448" cy="30" r="3"/>
+      <circle fill="currentColor" cx="676" cy="24" r="5"/>
+      <circle fill="currentColor" cx="888" cy="32" r="4"/>
+      <circle fill="currentColor" cx="1100" cy="28" r="3"/>
+    </svg>
+  </span>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>What I'm not promising</h2>
+      <span class="sec-note">Read this part twice</span>
+    </div>
+    <div class="nots">
+      <div class="not"><span>Token</span></div>
+      <div class="not"><span>Staking rewards</span></div>
+      <div class="not"><span>A game</span></div>
+      <div class="not"><span>Metaverse land</span></div>
+      <div class="not"><span>Passive income</span></div>
+      <div class="not"><span>A 5-phase roadmap</span></div>
+    </div>
+    <div class="prose">
+      <p>Every one of those is easy to type and almost impossible to deliver alone. I'd rather under-promise and still be here in six months than post a roadmap I quietly delete later.</p>
+      <p>What you get is the art, the commercial rights to it, a raffle I fund myself, and someone who posts the work as it happens — including the parts that go wrong.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="drip" aria-hidden="true">
+    <svg viewBox="0 0 1200 44" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="currentColor" d="M0 0h1200v5H0z"/>
+      <path fill="currentColor" d="M108 4c4 0 6 3 6 9s2 13 2 18-3 8-7 8-7-3-7-8 2-12 2-18 0-9 4-9z"/>
+      <path fill="currentColor" d="M320 4c5 0 7 4 7 11s3 16 3 22-4 9-8 9-8-3-8-9 3-15 3-22 -2-11 3-11z"/>
+      <path fill="currentColor" d="M596 4c4 0 5 3 5 8s2 10 2 14-3 7-6 7-6-3-6-7 2-9 2-14 -1-8 3-8z"/>
+      <path fill="currentColor" d="M844 4c4 0 6 3 6 9s2 12 2 17-3 8-7 8-7-3-7-8 2-11 2-17 0-9 4-9z"/>
+      <path fill="currentColor" d="M1060 4c5 0 7 4 7 10s3 14 3 20-4 8-8 8-8-2-8-8 3-14 3-20 -2-10 3-10z"/>
+      <circle fill="currentColor" cx="220" cy="30" r="4"/>
+      <circle fill="currentColor" cx="472" cy="26" r="3"/>
+      <circle fill="currentColor" cx="724" cy="34" r="5"/>
+      <circle fill="currentColor" cx="948" cy="24" r="4"/>
+      <circle fill="currentColor" cx="1152" cy="30" r="3"/>
+    </svg>
+  </span>
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="mark">BoxHead</div>
+      <div class="foot-links">
+        <a href="https://x.com/boxheadfun" target="_blank" rel="noopener">X / @boxheadfun</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#raffle">Raffle</a>
+      </div>
+    </div>
+    <p class="fine">theboxhead.fun is the only official BoxHead site. Mint happens on OpenSea and the link gets posted from @boxheadfun first. I never DM first. Nothing here is an investment or investment advice — buy a head because you like the head.</p>
+  </div>
+</footer>
+
+</body>
+</html>
