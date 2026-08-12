@@ -70,7 +70,7 @@ section{position:relative;border-top:var(--line) solid var(--ink);padding:72px 0
 .tile:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--ink)}
 .tile img{width:100%;height:100%;object-fit:cover;display:block}
 .tile .tag{position:absolute;left:0;bottom:0;background:var(--ink);color:var(--yellow);font-size:11px;font-weight:600;letter-spacing:0.1em;padding:5px 10px;line-height:1.4}
-.tile.empty{display:flex;align-items:center;justify-content:center;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.35;line-height:1.6;text-align:center;padding:10px}
+.gallery-note{font-size:14px;opacity:0.55;margin-top:20px}
 
 .prose{max-width:60ch;font-size:18px}
 .prose p+p{margin-top:18px}
@@ -174,16 +174,8 @@ footer a:focus-visible{outline-color:var(--yellow)}
       <h2>The heads</h2>
       <span class="sec-note">More added as they're drawn</span>
     </div>
-    <div class="grid">
-      <div class="tile"><img src="img/boxhead-01.png" alt="BoxHead 001"><span class="tag">001</span></div>
-      <div class="tile empty">img/<br>boxhead-02.png</div>
-      <div class="tile empty">img/<br>boxhead-03.png</div>
-      <div class="tile empty">img/<br>boxhead-04.png</div>
-      <div class="tile empty">img/<br>boxhead-05.png</div>
-      <div class="tile empty">img/<br>boxhead-06.png</div>
-      <div class="tile empty">img/<br>boxhead-07.png</div>
-      <div class="tile empty">img/<br>boxhead-08.png</div>
-    </div>
+    <div class="grid" id="grid"></div>
+    <p class="gallery-note" id="gallery-note">Loading…</p>
   </div>
 </section>
 
@@ -327,6 +319,70 @@ footer a:focus-visible{outline-color:var(--yellow)}
     <p class="fine">theboxhead.fun is the only official BoxHead site. Mint happens on OpenSea and the link gets posted from @boxheadfun first. I never DM first. Nothing here is an investment or investment advice — buy a head because you like the head.</p>
   </div>
 </footer>
+
+<script>
+/* Auto-detect gallery images.
+   Just upload img/boxhead-01.png, boxhead-02.png, boxhead-03.png ... 
+   They appear automatically. Stops after 3 missing numbers in a row. */
+(function(){
+  var grid = document.getElementById('grid');
+  var note = document.getElementById('gallery-note');
+  var MAX = 60;
+  var STOP_AFTER_MISSING = 3;
+
+  function pad(n){ return n < 10 ? '0' + n : String(n); }
+
+  function check(n){
+    return new Promise(function(resolve){
+      var img = new Image();
+      img.onload = function(){ resolve(true); };
+      img.onerror = function(){ resolve(false); };
+      img.src = 'img/boxhead-' + pad(n) + '.png';
+    });
+  }
+
+  function addTile(n){
+    var tile = document.createElement('div');
+    tile.className = 'tile';
+    var img = document.createElement('img');
+    img.src = 'img/boxhead-' + pad(n) + '.png';
+    img.alt = 'BoxHead ' + pad(n);
+    img.loading = 'lazy';
+    var tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.textContent = pad(n);
+    tile.appendChild(img);
+    tile.appendChild(tag);
+    grid.appendChild(tile);
+  }
+
+  async function run(){
+    var found = 0;
+    var missStreak = 0;
+
+    for (var i = 1; i <= MAX; i++){
+      var exists = await check(i);
+      if (exists){
+        addTile(i);
+        found++;
+        missStreak = 0;
+      } else {
+        missStreak++;
+        if (missStreak >= STOP_AFTER_MISSING && found > 0) break;
+        if (missStreak >= STOP_AFTER_MISSING && found === 0) break;
+      }
+    }
+
+    if (found === 0){
+      note.textContent = 'Nothing here yet.';
+    } else {
+      note.textContent = found + ' drawn so far.';
+    }
+  }
+
+  run();
+})();
+</script>
 
 </body>
 </html>
